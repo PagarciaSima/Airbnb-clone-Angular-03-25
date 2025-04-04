@@ -156,7 +156,13 @@ export class CategoryService {
   }
 
   getCategoryByDefault(): Category {
-    return this.categories[0];
+    if (this.categories && this.categories.length > 0) {
+      return this.categories[0];
+    } else {
+      // Maneja el caso en que categories esté vacío o no esté definido
+      console.error('Categories not found');
+      return {} as Category; // O algún valor por defecto
+    }
   }
 
   getCategoriesByTechnicalName(technicalName: CategoryName): Category | undefined {
