@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpParams, HttpStatusCode } from '@angular/common/http';
 import {Location} from "@angular/common";
 import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
-import { State } from './model/state.model';
-import { User } from './model/user.model';
+import { State } from '../model/state.model';
+import { User } from '../model/user.model';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
