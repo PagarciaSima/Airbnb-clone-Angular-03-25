@@ -158,6 +158,8 @@ export class AuthService {
     if (!Array.isArray(authorities)) {
       authorities = [authorities];
     }
+    console.log(authorities)
+    console.log('has', this.fetchUser$().value!.authorities!)
     return this.fetchUser$().value!.authorities!.some((authority: string) => authorities.includes(authority));
   }
 }

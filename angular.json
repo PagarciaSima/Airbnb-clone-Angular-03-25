@@ -68,7 +68,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "Airbnb-clone:build",
-            "proxyConfig": "proxy.cong.mjs"
+            "proxyConfig": "proxy.conf.mjs"
           },
           "configurations": {
             "production": {
