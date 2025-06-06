@@ -9,7 +9,7 @@ export interface NewListingInfo {
     baths: BathsVO
 }
 
-export interface NewLising {
+export interface NewListing {
     category: CategoryName,
     location: string,
     infos: NewListingInfo,
