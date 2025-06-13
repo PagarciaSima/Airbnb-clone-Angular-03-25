@@ -17,11 +17,11 @@ export class LandlordListingService {
 
   create(newListing: NewListing): void {
     const formData = new FormData();
-    for (let i = 0; i < newListing.picture.length; i++) {
-      formData.append("picture-" + i, newListing.picture[i].file);
+    for (let i = 0; i < newListing.pictures.length; i++) {
+      formData.append("picture-" + i, newListing.pictures[i].file);
     }
     const clone = structuredClone(newListing);
-    clone.picture = [];
+    clone.pictures = [];
     formData.append("dto", JSON.stringify(clone));
 
     this.http.post<CreatedListing>(`${environment.API_URL}/landlord-listing/create`

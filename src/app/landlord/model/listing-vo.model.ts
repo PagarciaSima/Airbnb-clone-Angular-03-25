@@ -15,11 +15,11 @@ export interface BathsVO {
 }
 
 export interface TitleVO {
-    value: number
+    value: string
 }
 
 export interface DescriptionVO {
-    value: number
+    value: string
 }
 
 export interface priceVO {

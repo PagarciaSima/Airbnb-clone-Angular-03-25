@@ -13,7 +13,7 @@ export interface NewListing {
     category: CategoryName,
     location: string,
     infos: NewListingInfo,
-    picture: Array<NewListingPicture>,
+    pictures: Array<NewListingPicture>,
     description: Description,
     price: priceVO
 }
