@@ -112,7 +112,8 @@ export class NavbarComponent implements OnInit {
       closable: true,
       focusOnShow: true,
       modal: true,
-      showHeader: true
+      showHeader: true,
+      contentStyle: {"padding-bottom": "2rem"}
     });
   }
 

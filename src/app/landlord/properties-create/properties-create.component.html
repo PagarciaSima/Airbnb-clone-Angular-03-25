@@ -8,3 +8,10 @@
         }
     }
 </div>
+<app-footer-step [currentStep]="currentStep"
+    [isAllStepsValid]="isAllStepsValid()"
+    [loading]="loadingCreation"
+    (finish)="createListing()"
+    (next)="nextStep()"
+    (previous)="previousStep()"
+></app-footer-step>
