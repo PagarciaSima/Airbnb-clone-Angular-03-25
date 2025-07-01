@@ -11,11 +11,12 @@ import { State } from '../../core/model/state.model';
 import { CategoryName } from '../../layout/navbar/category/category.model';
 import { FooterStepComponent } from "../../shared/footer-step/footer-step.component";
 import { CategoryStepComponent } from './step/category-step/category-step.component';
+import { LocationStepComponent } from "./step/location-step/location-step.component";
 
 @Component({
   selector: 'app-properties-create',
   standalone: true,
-  imports: [CategoryStepComponent, FooterStepComponent],
+  imports: [CategoryStepComponent, FooterStepComponent, LocationStepComponent],
   templateUrl: './properties-create.component.html',
   styleUrl: './properties-create.component.scss'
 })
@@ -167,5 +168,9 @@ export class PropertiesCreateComponent implements OnDestroy{
 
   onValidityChange(validity: boolean) {
     this.currentStep.isValid = validity;
+  }
+
+  onLocationChange(newLocation: string) {
+    this.newListing.location = newLocation;
   }
 }

@@ -7,9 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class CategoryService {
 
-  private changeCategory$: BehaviorSubject<Category> = new BehaviorSubject<Category>(this.getCategoryByDefault());
-  changeCategoryObs: Observable<Category> = this.changeCategory$.asObservable();
-
   private categories: Category[] = [
     {
       icon: "eye",
@@ -145,7 +142,8 @@ export class CategoryService {
     },
   ];
 
-  constructor() { }
+  private changeCategory$ = new BehaviorSubject<Category>(this.getCategoryByDefault());
+  changeCategoryObs = this.changeCategory$.asObservable();
 
   changeCategory(category: Category): void {
     this.changeCategory$.next(category);
@@ -155,17 +153,11 @@ export class CategoryService {
     return this.categories;
   }
 
-  getCategoryByDefault(): Category {
-    if (this.categories && this.categories.length > 0) {
-      return this.categories[0];
-    } else {
-      // Maneja el caso en que categories esté vacío o no esté definido
-      console.error('Categories not found');
-      return {} as Category; // O algún valor por defecto
-    }
+  getCategoryByDefault() {
+    return this.categories[0];
   }
 
-  getCategoriesByTechnicalName(technicalName: CategoryName): Category | undefined {
-    return this.categories.find((category: Category) => category.technicalName === technicalName);
+  getCategoryByTechnicalName(technicalName: CategoryName): Category | undefined {
+    return this.categories.find(category => category.technicalName === technicalName);
   }
 }

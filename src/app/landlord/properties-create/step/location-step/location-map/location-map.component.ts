@@ -1,14 +1,13 @@
-import { Component, effect, EventEmitter, inject, input, InputSignal, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete'
-import { CountryService } from '../country.service';
-import { ToastService } from '../../../../../layout/toast.service';
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import {Component, effect, EventEmitter, inject, input, Output} from '@angular/core';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {FormsModule} from "@angular/forms";
+import {AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent} from "primeng/autocomplete";
+import {CountryService} from "../country.service";
+import {ToastService} from "../../../../../layout/toast.service";
+import {OpenStreetMapProvider} from "leaflet-geosearch";
+import L, {circle, latLng, polygon, tileLayer} from "leaflet";
+import {filter} from "rxjs";
 import { Country } from '../contry.model';
-import L, { circle, latLng, polygon, tileLayer } from 'leaflet';
-import { State } from '../../../../../core/model/state.model';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-location-map',
@@ -23,21 +22,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class LocationMapComponent {
 
-  countryService: CountryService = inject(CountryService);
-  toastService: ToastService = inject(ToastService);
+  countryService = inject(CountryService);
+  toastService = inject(ToastService);
 
   private map: L.Map | undefined;
   private provider: OpenStreetMapProvider | undefined;
 
-  location: InputSignal<string> = input.required<string>();
-  placeholder: InputSignal<string> = input<string>("Select your home country");
-  
+  location = input.required<string>();
+  placeholder = input<string>("Select your home country");
+
   currentLocation: Country | undefined;
 
   @Output()
-  locationChange: EventEmitter<string> = new EventEmitter<string>();
+  locationChange = new EventEmitter<string>();
 
-  formatLabel = (country: Country) => country.flag + " " + country.name;
+  formatLabel = (country: Country) => country.flag + "   " + country.name.common;
 
   options = {
     layers: [
@@ -63,35 +62,36 @@ export class LocationMapComponent {
   countries: Array<Country> = [];
   filteredCountries: Array<Country> = [];
 
+
   constructor() {
     this.listenToLocation();
   }
 
-  onMapReady(map: L.Map): void {
+  onMapReady(map: L.Map) {
     this.map = map;
     this.configSearchControl();
   }
 
-  configSearchControl(): void {
+  private configSearchControl() {
     this.provider = new OpenStreetMapProvider();
   }
 
-  onLocationChange(newEvent: AutoCompleteSelectEvent): void {
+  onLocationChange(newEvent: AutoCompleteSelectEvent) {
     const newCountry = newEvent.value as Country;
     this.locationChange.emit(newCountry.cca3);
   }
 
-  private listenToLocation(): void {
+  private listenToLocation() {
     effect(() => {
-      // Valor actualizado de signal countries
-      const countriesState: State<Country[], HttpErrorResponse> = this.countryService.countries();
+      const countriesState = this.countryService.countries();
       if (countriesState.status === "OK" && countriesState.value) {
         this.countries = countriesState.value;
         this.filteredCountries = countriesState.value;
         this.changeMapLocation(this.location())
       } else if (countriesState.status === "ERROR") {
         this.toastService.send({
-          severity: "error", summary: "Error", detail: "Something went wrong when loading countries on change location"
+          severity: "error", summary: "Error",
+          detail: "Something went wrong when loading countries on change location"
         });
       }
     });
@@ -100,7 +100,7 @@ export class LocationMapComponent {
   private changeMapLocation(term: string) {
     this.currentLocation = this.countries.find(country => country.cca3 === term);
     if (this.currentLocation) {
-      this.provider!.search({ query: this.currentLocation.name.common })
+      this.provider!.search({query: this.currentLocation.name.common})
         .then((results) => {
           if (results && results.length > 0) {
             const firstResult = results[0];
@@ -110,7 +110,7 @@ export class LocationMapComponent {
               .bindPopup(firstResult.label)
               .openPopup();
           }
-        });
+        })
     }
   }
 
@@ -119,4 +119,5 @@ export class LocationMapComponent {
       this.countries.filter(country => country.name.common.toLowerCase().startsWith(newCompleteEvent.query))
   }
 
+  protected readonly filter = filter;
 }

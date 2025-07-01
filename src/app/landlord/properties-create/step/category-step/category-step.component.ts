@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, input, InputSignal, OnInit, Output } from '@angular/core';
-import { Category, CategoryName } from '../../../layout/navbar/category/category.model';
-import { CategoryService } from '../../../layout/navbar/category/category.service';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { Category, CategoryName } from '../../../../layout/navbar/category/category.model';
+import { CategoryService } from '../../../../layout/navbar/category/category.service';
 
 @Component({
   selector: 'app-category-step',
