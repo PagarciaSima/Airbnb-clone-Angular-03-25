@@ -14,6 +14,14 @@
 
             </app-location-step>
         }
+        @case(INFO) {
+            <app-info-step [infos]="newListing.infos"
+                (infoChange)="onInfoChange($event)"
+                (stepValidityChange)="onValidityChange($event)"
+            >
+
+            </app-info-step>
+        }
     }
 </div>
 <app-footer-step [currentStep]="currentStep"
